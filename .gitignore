@@ -26,7 +26,6 @@ Thumbs.db
 target/
 
 # Package Files #
-*.war
 *.nar
 *.ear
 *.zip
@@ -41,3 +40,4 @@ hs_err_pid*
 *.iml
 out
 gen
+/git
