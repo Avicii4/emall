@@ -69,7 +69,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public ServerResponse<String> checkValid(String str, String type) {
-        if (StringUtils.isNotBlank(str)) {
+        if (StringUtils.isNotBlank(type)) {
             // 用户名校验
             if (Const.USERNAME.equals(type)) {
                 int resultCount = userMapper.checkUsername(str);
@@ -79,7 +79,7 @@ public class UserServiceImpl implements IUserService {
             }
             // 电子邮箱校验
             if (Const.EMAIL.equals(type)) {
-                int resultCount = userMapper.checkUsername(str);
+                int resultCount = userMapper.checkEmail(str);
                 if (resultCount > 0) {
                     return ServerResponse.createByErrorMessage("电子邮箱已存在");
                 }
