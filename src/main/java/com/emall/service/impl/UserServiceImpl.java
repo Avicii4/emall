@@ -147,4 +147,51 @@ public class UserServiceImpl implements IUserService {
 
         return ServerResponse.createByErrorMessage("修改密码失败");
     }
+
+    @Override
+    public ServerResponse<String> resetPassword(String oldPassword, String newPassword, User user) {
+        // 为了防止横向越权，校验旧密码与用户
+        int resultCount = userMapper.checkPassword(MD5Util.MD5EncodeUtf8(oldPassword), user.getId());
+        if (resultCount == 0) {
+            return ServerResponse.createByErrorMessage("旧密码错误");
+        }
+
+        user.setPassword(MD5Util.MD5EncodeUtf8(newPassword));
+        int updateCount = userMapper.updateByPrimaryKeySelective(user);
+        if (updateCount > 0) {
+            return ServerResponse.createBySuccessMessage("密码更新成功");
+        }
+        return ServerResponse.createByErrorMessage("密码更新失败");
+    }
+
+    @Override
+    public ServerResponse<User> updateInformation(User user) {
+        // 校验邮箱是否存在和是否属于当前用户
+        int resultCount = userMapper.checkEmailByUserID(user.getEmail(), user.getId());
+        if (resultCount > 0) {
+            return ServerResponse.createByErrorMessage("电子邮箱已存在，请更换邮箱再尝试更新");
+        }
+        // 更新用户信息，其中用户名不可更改
+        User updateUser = new User();
+        updateUser.setId(user.getId());
+        updateUser.setEmail(user.getEmail());
+        updateUser.setPhone(user.getPhone());
+        updateUser.setQuestion(user.getQuestion());
+        updateUser.setAnswer(user.getAnswer());
+        int updateCount = userMapper.updateByPrimaryKeySelective(updateUser);
+        if (updateCount > 0) {
+            return ServerResponse.createBySuccess("更新个人信息成功", updateUser);
+        }
+        return ServerResponse.createByErrorMessage("更新个人信息失败");
+    }
+
+    public ServerResponse<User> getInformation(Integer userId){
+        User user=userMapper.selectByPrimaryKey(userId);
+        if(user==null){
+            return ServerResponse.createByErrorMessage("找不到当前用户");
+        }
+        // 密码置空，不进行返回
+        user.setPassword(StringUtils.EMPTY);
+        return ServerResponse.createBySuccess(user);
+    }
 }

@@ -180,4 +180,14 @@
     set password = #{newPassword}, update_time = now()
     where username = #{username}
   </update>
+  <select id="checkPassword" resultType="int" parameterType="map">
+    select count(1) from emall_user
+    where id = #{userID}
+    and password = #{password}
+  </select>
+  <select id="checkEmailByUserID" resultType="int" parameterType="map">
+    select count(1) from emall_user
+    where email = #{email}
+    and id != #{userID}
+  </select>
 </mapper>

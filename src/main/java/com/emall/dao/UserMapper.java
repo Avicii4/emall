@@ -1,6 +1,5 @@
 package com.emall.dao;
 
-import com.emall.common.ServerResponse;
 import com.emall.pojo.User;
 import org.apache.ibatis.annotations.Param;
 
@@ -28,4 +27,8 @@ public interface UserMapper {
     int checkAnswer(@Param("username")String username, @Param("question")String question, @Param("answer")String answer);
 
     int updatePasswordByUsername(@Param("username")String username, @Param("newPassword")String newPassword);
+
+    int checkPassword(@Param("password")String password, @Param("userID")Integer userID);
+
+    int checkEmailByUserID(@Param("email") String email,@Param("userID") Integer userId);
 }

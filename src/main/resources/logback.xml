@@ -13,7 +13,7 @@
     <appender name="emall" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <File>d:/emalllog/emall.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/developer/apache-tomcat-7.0.73/logs/emall.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <fileNamePattern>d:/emalllog/emall.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
             <append>true</append>
             <maxHistory>10</maxHistory>
         </rollingPolicy>
