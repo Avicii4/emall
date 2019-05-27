@@ -25,7 +25,7 @@ public class UserController {
     private IUserService iUserService;
 
     /**
-     * 用户登录
+     * 前台用户登录
      *
      * @param username 用户名
      * @param password 密码

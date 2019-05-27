@@ -23,15 +23,23 @@ public class UserManageController {
     @Autowired
     private IUserService iUserService;
 
-    @RequestMapping(value = "login.do",method = RequestMethod.POST)
+    /**
+     * 后台管理员登录
+     *
+     * @param username 用户名
+     * @param password 密码
+     * @param session
+     * @return 登录反馈信息
+     */
+    @RequestMapping(value = "login.do", method = RequestMethod.POST)
     @ResponseBody
-    public ServerResponse<User> login(String username, String password, HttpSession session){
-        ServerResponse<User> response=iUserService.login(username,password);
-        if(response.isSuccessful()){
-            User user=response.getData();
-            if(user.getRole()==Const.Role.ROLE_ADMIN){
+    public ServerResponse<User> login(String username, String password, HttpSession session) {
+        ServerResponse<User> response = iUserService.login(username, password);
+        if (response.isSuccessful()) {
+            User user = response.getData();
+            if (user.getRole() == Const.Role.ROLE_ADMIN) {
                 // 是管理员登录
-                session.setAttribute(Const.CURRENT_USER,user);
+                session.setAttribute(Const.CURRENT_USER, user);
                 return response;
             } else {
                 return ServerResponse.createByErrorMessage("不是管理员，无法登录");
