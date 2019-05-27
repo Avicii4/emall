@@ -19,4 +19,11 @@ public class Const {
         // 管理员
         int ROLE_ADMIN=1;
     }
+
+    public interface Cart{
+        // 购物车中选中状态
+        int CHECKED=1;
+        // 购物车中未选中状态
+        int UNCHECKED=0;
+    }
 }
