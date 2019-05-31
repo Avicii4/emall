@@ -73,7 +73,7 @@ public class CategoryServiceImpl implements ICategoryService {
     }
 
     @Override
-    public ServerResponse selectDeepChildrenCategory(Integer categoryId) {
+    public ServerResponse<List<Integer>> selectDeepChildrenCategoryById(Integer categoryId) {
         Set<Category> categorySet = Sets.newHashSet();
         findChildrenCategory(categorySet, categoryId);
         List<Integer> categoryIdList = Lists.newArrayList();

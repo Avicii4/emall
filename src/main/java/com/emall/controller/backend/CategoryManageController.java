@@ -116,7 +116,7 @@ public class CategoryManageController {
         ServerResponse response = iUserService.checkAdminRole(user);
         if (response.isSuccessful()) {
             // 是管理员，递归获取各子品类
-            return iCategoryService.selectDeepChildrenCategory(categoryId);
+            return iCategoryService.selectDeepChildrenCategoryById(categoryId);
         } else {
             return ServerResponse.createByErrorMessage("无权限操作，需要管理员权限");
         }
