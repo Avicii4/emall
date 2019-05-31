@@ -9,9 +9,12 @@ import java.util.List;
  */
 public class CartVo {
     private List<CartProductVo> cartProductVoList;
+
     private BigDecimal cartTotalPrice;
+
     // 是否全都勾选
     private boolean allChecked;
+
     private String imageHost;
 
     public List<CartProductVo> getCartProductVoList() {
