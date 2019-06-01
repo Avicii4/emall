@@ -185,9 +185,9 @@ public class UserServiceImpl implements IUserService {
         return ServerResponse.createByErrorMessage("更新个人信息失败");
     }
 
-    public ServerResponse<User> getInformation(Integer userId){
-        User user=userMapper.selectByPrimaryKey(userId);
-        if(user==null){
+    public ServerResponse<User> getInformation(Integer userId) {
+        User user = userMapper.selectByPrimaryKey(userId);
+        if (user == null) {
             return ServerResponse.createByErrorMessage("找不到当前用户");
         }
         // 密码置空，不进行返回
@@ -197,7 +197,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public ServerResponse checkAdminRole(User user) {
-        if(user!=null&& user.getRole()==Const.Role.ROLE_ADMIN){
+        if (user != null && user.getRole() == Const.Role.ROLE_ADMIN) {
             return ServerResponse.createBySuccess();
         }
         return ServerResponse.createByError();

@@ -29,6 +29,9 @@ public class Const {
         int CHECKED = 1;
         // 购物车中未选中状态
         int UNCHECKED = 0;
+
+        String LIMIT_NUM_FAIL="LIMIT_NUM_FAIL";
+        String LIMIT_NUM_SUCCESS="LIMIT_NUM_SUCCESS";
     }
 
     public interface ProductListOrderBy{
