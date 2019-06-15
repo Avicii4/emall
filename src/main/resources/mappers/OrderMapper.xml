@@ -202,7 +202,7 @@
         select
         <include refid="Base_Column_List"/>
         from emall_order
-        where order_n0 = #{orderNo} and user_id = #{userId}
+        where order_no = #{orderNo} and user_id = #{userId}
     </select>
     <select id="selectByOrderNo" parameterType="long" resultMap="BaseResultMap">
         select

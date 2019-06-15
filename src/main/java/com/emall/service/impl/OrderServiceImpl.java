@@ -16,6 +16,7 @@ import com.emall.dao.*;
 import com.emall.pojo.*;
 import com.emall.service.IOrderService;
 import com.emall.util.BigDecimalUtil;
+import com.emall.util.DateTimeUtil;
 import com.emall.util.FTPUtil;
 import com.emall.util.PropertiesUtil;
 import com.emall.vo.OrderItemVo;
@@ -31,7 +32,6 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -90,11 +90,11 @@ public class OrderServiceImpl implements IOrderService {
         // 从购物车中获取数据
         List<Cart> cartList = cartMapper.selectCheckedCartByUserId(userId);
         //计算订单总价
-        ServerResponse<List<OrderItem>> serverResponse = this.getCartOrderItem(userId, cartList);
+        ServerResponse serverResponse = this.getCartOrderItem(userId, cartList);
         if (!serverResponse.isSuccessful()) {
             return serverResponse;
         }
-        List<OrderItem> orderItemList = serverResponse.getData();
+        List<OrderItem> orderItemList = (List<OrderItem>) serverResponse.getData();
         BigDecimal payment = this.getOrderTotalPrice(orderItemList);
 
         // 生成订单
@@ -216,13 +216,11 @@ public class OrderServiceImpl implements IOrderService {
             orderVo.setShippingVo(assembleShippingVo(shipping));
         }
 
-        ZoneId zoneId = ZoneId.systemDefault();
-        DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        orderVo.setPaymentTime(order.getPaymentTime().toInstant().atZone(zoneId).toLocalDateTime().format(pattern));
-        orderVo.setSendTime(order.getSendTime().toInstant().atZone(zoneId).toLocalDateTime().format(pattern));
-        orderVo.setEndTime(order.getEndTime().toInstant().atZone(zoneId).toLocalDateTime().format(pattern));
-        orderVo.setCreateTime(order.getCreateTime().toInstant().atZone(zoneId).toLocalDateTime().format(pattern));
-        orderVo.setCloseTime(order.getCloseTime().toInstant().atZone(zoneId).toLocalDateTime().format(pattern));
+        orderVo.setPaymentTime(DateTimeUtil.date2Str(order.getPaymentTime()));
+        orderVo.setSendTime(DateTimeUtil.date2Str(order.getSendTime()));
+        orderVo.setEndTime(DateTimeUtil.date2Str(order.getEndTime()));
+        orderVo.setCreateTime(DateTimeUtil.date2Str(order.getCreateTime()));
+        orderVo.setCloseTime(DateTimeUtil.date2Str(order.getCloseTime()));
         orderVo.setImageHost(PropertiesUtil.getProperties("ftp.server.http.prefix"));
 
         List<OrderItemVo> orderItemVoList = Lists.newArrayList();
@@ -243,10 +241,7 @@ public class OrderServiceImpl implements IOrderService {
         orderItemVo.setCurrentUnitPrice(orderItem.getCurrentUnitPrice());
         orderItemVo.setQuantity(orderItem.getQuantity());
         orderItemVo.setTotalPrice(orderItem.getTotalPrice());
-
-        Instant instant = orderItem.getCreateTime().toInstant();
-        LocalDateTime localDateTime = instant.atZone(ZoneId.systemDefault()).toLocalDateTime();
-        orderItemVo.setCreateTime(localDateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+        orderItemVo.setCreateTime(DateTimeUtil.date2Str(orderItem.getCreateTime()));
 
         return orderItemVo;
     }
@@ -480,11 +475,7 @@ public class OrderServiceImpl implements IOrderService {
             return ServerResponse.createBySuccess("支付宝重复调用");
         }
         if (Const.AlipayCallback.TRADE_STATUS_TRADE_SUCCESS.equals(tradeStatus)) {
-            DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-            LocalDateTime localDateTime = LocalDateTime.parse(params.get("gmt_payment"), pattern);
-            ZoneId zoneId = ZoneId.systemDefault();
-            Date paymentTime = Date.from(localDateTime.atZone(zoneId).toInstant());
-            order.setPaymentTime(paymentTime);
+            order.setPaymentTime(DateTimeUtil.str2Date(params.get("gmt_payment")));
             order.setStatus(Const.OrderStatusEnum.PAID.getCode());
             orderMapper.updateByPrimaryKeySelective(order);
         }
@@ -549,10 +540,10 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public ServerResponse<String> manageSendGoods(Long orderNo){
+    public ServerResponse<String> manageSendGoods(Long orderNo) {
         Order order = orderMapper.selectByOrderNo(orderNo);
-        if(order!=null){
-            if(order.getStatus()== Const.OrderStatusEnum.PAID.getCode()){
+        if (order != null) {
+            if (order.getStatus() == Const.OrderStatusEnum.PAID.getCode()) {
                 order.setStatus(Const.OrderStatusEnum.SHIPPED.getCode());
                 order.setSendTime(new Date());
                 orderMapper.updateByPrimaryKeySelective(order);
