@@ -11,9 +11,10 @@
     </appender>
 
     <appender name="emall" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>d:/emalllog/emall.log</File>
+<!--        <File>d:/emalllog/emall.log</File>-->
+        <File>/developer/apache-tomcat-9.0.21/logs/emall.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>d:/emalllog/emall.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <fileNamePattern>/developer/apache-tomcat-9.0.21/logs.emall.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
             <append>true</append>
             <maxHistory>10</maxHistory>
         </rollingPolicy>
@@ -23,9 +24,10 @@
     </appender>
 
     <appender name="error" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>d:/emalllog/error.log</File>
+<!--        <File>d:/emalllog/error.log</File>-->
+        <File>/developer/apache-tomcat-9.0.21/logs/error.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>d:/emalllog/error.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
+            <fileNamePattern>/developer/apache-tomcat-9.0.21/logs/emall.log.%d{yyyy-MM-dd}.gz</fileNamePattern>
             <append>true</append>
             <maxHistory>10</maxHistory>
         </rollingPolicy>
