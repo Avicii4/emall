@@ -401,7 +401,7 @@ public class OrderServiceImpl implements IOrderService {
                 .setUndiscountableAmount(undiscountableAmount).setSellerId(sellerId).setBody(body)
                 .setOperatorId(operatorId).setStoreId(storeId).setExtendParams(extendParams)
                 .setTimeoutExpress(timeoutExpress)
-                //TODO 支付宝服务器主动通知商户服务器里指定的页面http路径,根据需要设置
+                // 支付宝服务器主动通知商户服务器里指定的页面http路径,根据需要设置
                 .setNotifyUrl(PropertiesUtil.getProperties("aplipay.callback.url"))
                 .setGoodsDetailList(goodsDetailList);
 

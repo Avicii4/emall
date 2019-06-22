@@ -175,7 +175,7 @@ public class OrderController {
         } catch (AlipayApiException e) {
             logger.error("支付宝验证回调异常", e);
         }
-        // TODO 验证各个数据字段
+        // 验证各个数据字段
 
         ServerResponse serverResponse = iOrderService.alipayCallback(params);
         if (serverResponse.isSuccessful()) {
