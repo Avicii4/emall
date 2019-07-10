@@ -17,6 +17,11 @@ public class Const {
 
     public static final String USERNAME = "username";
 
+    public interface RedisCacheTime {
+        // 有效时间30分钟
+        int REDIS_SESSION_EXTIME = 60 * 30;
+    }
+
     public interface Role {
         // 普通用户
         int ROLE_CUSTOMER = 0;
@@ -83,9 +88,9 @@ public class Const {
             return code;
         }
 
-        public static OrderStatusEnum codeOf(int code){
-            for(OrderStatusEnum orderStatusEnum : values()){
-                if(orderStatusEnum.getCode()==code){
+        public static OrderStatusEnum codeOf(int code) {
+            for (OrderStatusEnum orderStatusEnum : values()) {
+                if (orderStatusEnum.getCode() == code) {
                     return orderStatusEnum;
                 }
             }
