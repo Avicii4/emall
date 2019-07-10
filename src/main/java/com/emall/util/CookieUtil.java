@@ -22,6 +22,7 @@ public class CookieUtil {
         cookie.setDomain(COOKIE_DOMAIN);
         // 设置在根目录下
         cookie.setPath("/");
+        cookie.setHttpOnly(true);
         // -1表示永久。不设置此项则Cookie不会写入硬盘，而是写在内存中，只在当前页面有效
         cookie.setMaxAge(60 * 60 * 24 * 365);
 

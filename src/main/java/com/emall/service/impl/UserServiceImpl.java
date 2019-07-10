@@ -2,11 +2,11 @@ package com.emall.service.impl;
 
 import com.emall.common.Const;
 import com.emall.common.ServerResponse;
-import com.emall.common.TokenCache;
 import com.emall.dao.UserMapper;
 import com.emall.pojo.User;
 import com.emall.service.IUserService;
 import com.emall.util.MD5Util;
+import com.emall.util.RedisPoolUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -111,7 +111,7 @@ public class UserServiceImpl implements IUserService {
             //问题和答案与用户名成功对应
             String forgetToken = UUID.randomUUID().toString();
             // 将token放入缓存中
-            TokenCache.setKey(TokenCache.TOKEN_PREFIX + username, forgetToken);
+            RedisPoolUtil.setExpire(Const.TOKEN_PREFIX + username, forgetToken, 60 * 60 * 12);
             return ServerResponse.createBySuccess(forgetToken);
         }
         return ServerResponse.createByErrorMessage("问题答案错误");
@@ -129,7 +129,7 @@ public class UserServiceImpl implements IUserService {
             return ServerResponse.createByErrorMessage("用户不存在");
         }
 
-        String token = TokenCache.getKey(TokenCache.TOKEN_PREFIX + username);
+        String token = RedisPoolUtil.get(Const.TOKEN_PREFIX + username);
         if (StringUtils.isBlank(token)) {
             return ServerResponse.createByErrorMessage("token无效或者过期");
         }
