@@ -36,14 +36,12 @@ public class UserSpringSessionController {
     @RequestMapping(value = "login.do", method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse<User> login(String username, String password, HttpSession session, HttpServletResponse httpServletResponse) {
-        // for exception test
-        int i = 0;
-        int j = 6 / i;
+        // for exception handler test
+//        int i = 0;
+//        int j = 6 / i;
         ServerResponse<User> response = iUserService.login(username, password);
         if (response.isSuccessful()) {
             session.setAttribute(Const.CURRENT_USER, response.getData());
-//            CookieUtil.writeLoginToken(httpServletResponse, session.getId());
-//            RedisShardedPoolUtil.setExpire(session.getId(), JsonUtil.obj2DoneString(response.getData()), Const.RedisCacheTime.REDIS_SESSION_EXTIME);
         }
         return response;
     }
@@ -56,9 +54,6 @@ public class UserSpringSessionController {
     @RequestMapping(value = "logout.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<String> logout(HttpSession session, HttpServletRequest request, HttpServletResponse response) {
-//        String loginToken = CookieUtil.readLoginToken(request);
-//        CookieUtil.delLoginToken(request, response);
-//        RedisShardedPoolUtil.del(loginToken);
         session.removeAttribute(Const.CURRENT_USER);
         return ServerResponse.createBySuccess();
     }
@@ -72,13 +67,6 @@ public class UserSpringSessionController {
     @RequestMapping(value = "get_user_info.do", method = RequestMethod.POST)
     @ResponseBody
     public ServerResponse<User> getUserInfo(HttpServletRequest request, HttpSession session) {
-//        String loginToken = CookieUtil.readLoginToken(request);
-//        if (StringUtils.isEmpty(loginToken)) {
-//            return ServerResponse.createByErrorMessage("用户未登录，无法获取当前用户的信息");
-//        }
-//        String userJsonStr = RedisShardedPoolUtil.get(loginToken);
-//        User user = JsonUtil.string2Obj(userJsonStr, User.class);
-
         User user = (User) session.getAttribute(Const.CURRENT_USER);
         if (user != null) {
             return ServerResponse.createBySuccess(user);

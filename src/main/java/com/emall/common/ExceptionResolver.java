@@ -18,12 +18,12 @@ import javax.servlet.http.HttpServletResponse;
 public class ExceptionResolver implements HandlerExceptionResolver {
     @Override
     public ModelAndView resolveException(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) {
-        log.error("{} Exception",httpServletRequest.getRequestURI(),e);
+        log.error("{} Exception", httpServletRequest.getRequestURI(), e);
         // 使用jackson 2.x时使用MappingJackson2JsonView
         ModelAndView modelAndView = new ModelAndView(new MappingJacksonJsonView());
-        modelAndView.addObject("status",ResponseCode.ERROR.getCode());
-        modelAndView.addObject("msg","接口异常,详情请查看服务端日志的异常信息");
-        modelAndView.addObject("data",e.toString());
+        modelAndView.addObject("status", ResponseCode.ERROR.getCode());
+        modelAndView.addObject("msg", "接口异常,详情请查看服务端日志的异常信息");
+        modelAndView.addObject("data", e.toString());
 
         return modelAndView;
     }
