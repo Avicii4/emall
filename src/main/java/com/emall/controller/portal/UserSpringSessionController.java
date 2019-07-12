@@ -33,9 +33,12 @@ public class UserSpringSessionController {
      * @param session
      * @return 登录相关信息
      */
-    @RequestMapping(value = "login.do", method = RequestMethod.POST)
+    @RequestMapping(value = "login.do", method = RequestMethod.GET)
     @ResponseBody
     public ServerResponse<User> login(String username, String password, HttpSession session, HttpServletResponse httpServletResponse) {
+        // for exception test
+        int i = 0;
+        int j = 6 / i;
         ServerResponse<User> response = iUserService.login(username, password);
         if (response.isSuccessful()) {
             session.setAttribute(Const.CURRENT_USER, response.getData());
