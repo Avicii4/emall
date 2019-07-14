@@ -57,7 +57,7 @@ public class CloseOrderTask {
         log.info("关闭订单,定时任务结束");
     }
 
-    //    @Scheduled(cron = "0 */1 * * * ?")
+        @Scheduled(cron = "0 */1 * * * ?")
     public void closeOrderTask3() {
         log.info("关闭订单,定时任务启动");
         long lockTimeout = Long.parseLong(PropertiesUtil.getProperties("lock.timeout", "50000"));
@@ -85,7 +85,7 @@ public class CloseOrderTask {
         log.info("关闭订单,定时任务结束");
     }
 
-    @Scheduled(cron = "0 */1 * * * ?")
+//    @Scheduled(cron = "0 */1 * * * ?")
     public void closeOrderTask4() {
         RLock rLock = redissonManager.getRedisson().getLock(Const.REDIS_LOCK.CLOSE_ORDER_TASK_LOCK);
         boolean getLock = false;
