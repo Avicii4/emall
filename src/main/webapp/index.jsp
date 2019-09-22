@@ -1,24 +1,74 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
-
+<%--
+  Created by IntelliJ IDEA.
+  User: 25146
+  Date: 2019/9/19
+  Time: 16:14
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<body>
-<h2>===EMALL===</h2>
-<h3>This is Tomcat 1</h3>
-<h3>This is Tomcat 1</h3>
+  <head>
+    <title>welcome</title>
+    <style type="text/css">
+      @font-face{
+        font-family: "MAILR___";
+        src:url("MAILR___.TTF");
+      }
+      p{
+        font-family: MAILR___;
+        font-size: 70px;
+      }
+      .blur {
+        filter: url(blur.svg#blur); /* FireFox, Chrome, Opera */
+        -webkit-filter: blur(5px); /* Chrome, Opera */
+        -moz-filter: blur(5px);
+        -ms-filter: blur(5px);
+        filter: blur(5px);
+        filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=5, MakeShadow=false); /* IE6~IE9 */
+      }
+      .hvcenter{
+        position: absolute;
+        top: 15%;
+        left: 10%;
+      }
+    </style>
+    <script type="text/javascript">
+      window.onload=CurrentTime;
+      function CurrentTime(){
+        var now = new Date();
+        var year = now.getFullYear();       //年
+        var month = now.getMonth() + 1;     //月
+        var day = now.getDate();            //日
+        var hh = now.getHours();            //时
+        var mm = now.getMinutes();          //分
 
-SpringMVC文件上传
-<form name="form1" action="/manage/product/upload.do" method="post" enctype="multipart/form-data">
-    <input type="file" name="upload_file" />
-    <input type="submit" value="SpringMVC文件上传" />
-</form>
+        var clock = year + " - ";
+        if(month < 10)
+          clock += "0";
+        clock += month + " - ";
+        if(day < 10)
+          clock += "0";
+        clock += day + "&nbsp;&nbsp;&nbsp;";
+        if(hh < 10)
+          clock += "0";
+        clock += hh + " : ";
+        if (mm < 10)
+          clock += '0';
+        clock += mm;
+        document.getElementById("time").innerHTML=clock;
+        document.getElementById("sayhi").innerHTML="tomcat one";
+        document.getElementById("myimg").src="11.jpeg";
 
-
-富文本图片上传
-<form name="form2" action="/manage/product/richtext_img_upload.do" method="post" enctype="multipart/form-data">
-    <input type="file" name="upload_file" />
-    <input type="submit" value="富文本图片上传" />
-</form>
-
-
-</body>
+      }
+    </script>
+  </head>
+  <body>
+  <div id="bg_pic" style="position:absolute; width:100%; height:100%; z-index:-1">
+    <img id="myimg" src="morning.jpg" alt="backgroundpicture"  class="blur" width="100%" height="100%">
+  </div>
+  <div id="" style="width:1000px; height:500px;  text-align:center" class="hvcenter" >
+    <p id="sayhi"></p>
+    <p id="time"></p>
+  </div>
+  </body>
 </html>
